@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="widget_background">#1C1B1F</color>
+    <color name="widget_surface">#2D2D30</color>
+    <color name="train_time">#FFFFFF</color>
+    <color name="title_text">#9E9EA3</color>
+    <color name="bus_label">#E6E6E6</color>
+    <color name="bus_detail">#B3B3B8</color>
+    <color name="accent">#8AB4F8</color>
+</resources>

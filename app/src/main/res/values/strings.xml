@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Train Departure</string>
+    <string name="widget_label">Train Departure</string>
+    <string name="title_next_train">Next train</string>
+    <string name="no_train_time">--:--</string>
+    <string name="bus1_label">Bus 1 (114)</string>
+    <string name="bus2_label">Bus 2 (106)</string>
+    <string name="departed">departed</string>
+    <string name="departing_now">now</string>
+    <string name="no_bus">--:--</string>
+    <string name="minute_format">in %1$d min</string>
+    <string name="bus_detail_format">%1$s · %2$s</string>
+</resources>
