@@ -5,76 +5,146 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/widget_background"
-    android:padding="12dp">
+    android:padding="16dp">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_next_train"
-        android:textColor="@color/title_text"
-        android:textSize="12sp"
-        android:textStyle="bold" />
+        android:text="@string/label_catch_train"
+        android:textColor="@color/muted"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.08"
+        android:textAllCaps="true" />
 
     <TextView
         android:id="@+id/train_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:text="@string/no_train_time"
-        android:textColor="@color/train_time"
-        android:textSize="40sp"
+        android:textColor="@color/text"
+        android:textSize="44sp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/muted"
+        android:textSize="13sp" />
+
     <LinearLayout
-        android:id="@+id/bus1_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="14dp"
         android:orientation="horizontal"
         android:baselineAligned="false">
 
-        <TextView
-            android:id="@+id/bus1_label"
+        <LinearLayout
+            android:id="@+id/bus1_card"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/bus1_label"
-            android:textColor="@color/bus_label"
-            android:textSize="13sp" />
+            android:layout_marginEnd="5dp"
+            android:orientation="vertical"
+            android:background="@drawable/bus_card"
+            android:padding="10dp">
 
-        <TextView
-            android:id="@+id/bus1_detail"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/bus1_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/bus1_countdown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/bus1_dep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/muted"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/bus1_seat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/muted"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bus2_card"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/no_bus"
-            android:textColor="@color/bus_detail"
-            android:textSize="13sp" />
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:orientation="vertical"
+            android:background="@drawable/bus_card"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/bus2_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/bus2_countdown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/bus2_dep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/muted"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/bus2_seat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/muted"
+                android:textSize="12sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/bus2_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:orientation="horizontal"
-        android:baselineAligned="false">
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/bus2_label"
+            android:id="@+id/foot_left"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/bus2_label"
-            android:textColor="@color/bus_label"
-            android:textSize="13sp" />
+            android:textColor="@color/muted"
+            android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/bus2_detail"
+            android:id="@+id/foot_clock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/no_bus"
-            android:textColor="@color/bus_detail"
-            android:textSize="13sp" />
+            android:textColor="@color/muted"
+            android:textSize="12sp" />
     </LinearLayout>
 </LinearLayout>

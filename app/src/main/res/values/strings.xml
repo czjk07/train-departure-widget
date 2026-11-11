@@ -2,13 +2,15 @@
 <resources>
     <string name="app_name">Train Departure</string>
     <string name="widget_label">Train Departure</string>
-    <string name="title_next_train">Next train</string>
-    <string name="no_train_time">--:--</string>
-    <string name="bus1_label">Bus 1 (114)</string>
-    <string name="bus2_label">Bus 2 (106)</string>
-    <string name="departed">departed</string>
-    <string name="departing_now">now</string>
-    <string name="no_bus">--:--</string>
-    <string name="minute_format">in %1$d min</string>
-    <string name="bus_detail_format">%1$s · %2$s</string>
+    <string name="label_catch_train">Catch the train at</string>
+    <string name="sub_next_after">Next after: %1$s</string>
+    <string name="sub_last_train">Last train today</string>
+    <string name="bus_name">Bus %1$s</string>
+    <string name="departs">departs %1$s</string>
+    <string name="out_of_seat">out of seat by %1$s</string>
+    <string name="cant_make_it">can’t make it</string>
+    <string name="departed_or_soon">departed or too soon (%1$s)</string>
+    <string name="foot_arrive_wait">Arrive at stop %1$s · %2$d min wait</string>
+    <string name="weekend_msg">Weekend — no trains on this timetable</string>
+    <string name="no_trains_msg">No more trains today</string>
 </resources>

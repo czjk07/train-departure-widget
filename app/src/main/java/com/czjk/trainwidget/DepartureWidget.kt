@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.widget.RemoteViews
+import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
@@ -43,6 +44,8 @@ class DepartureWidget : AppWidgetProvider() {
     companion object {
         private const val ACTION_TICK = "com.czjk.trainwidget.ACTION_TICK"
         private val TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm")
+        private val CLOCK_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss")
+        private const val MILLIS_PER_SECOND = 1_000L
 
         private fun providerComponent(context: Context) =
             ComponentName(context, DepartureWidget::class.java)
@@ -62,7 +65,7 @@ class DepartureWidget : AppWidgetProvider() {
             manager: AppWidgetManager,
             appWidgetIds: IntArray,
         ) {
-            val state = Schedule.stateAt(LocalTime.now())
+            val state = Schedule.stateAt(LocalTime.now(), LocalDate.now().dayOfWeek)
             val views = buildViews(context, state)
             manager.updateAppWidget(appWidgetIds, views)
         }
@@ -70,55 +73,135 @@ class DepartureWidget : AppWidgetProvider() {
         private fun buildViews(context: Context, state: WidgetState): RemoteViews {
             val views = RemoteViews(context.packageName, R.layout.widget_departure)
             val res = context.resources
-            views.setTextViewText(
-                R.id.train_time,
-                state.train?.let { TIME_FORMAT.format(it.time) } ?: res.getString(R.string.no_train_time),
-            )
-            views.setTextViewText(R.id.bus1_detail, busDetail(context, state.bus1))
-            views.setTextViewText(R.id.bus2_detail, busDetail(context, state.bus2))
+            views.setTextViewText(R.id.label, res.getString(R.string.label_catch_train))
             views.setOnClickPendingIntent(R.id.widget_root, tickPendingIntent(context))
-            views.setTextColor(
-                R.id.train_time,
-                if (state.catchable) {
-                    res.getColor(R.color.train_time)
-                } else {
-                    res.getColor(R.color.bus_detail)
-                },
-            )
+
+            if (state.mode == WidgetMode.TRAIN) {
+                views.setTextViewText(
+                    R.id.train_time,
+                    TIME_FORMAT.format(state.trainTime),
+                )
+                views.setTextColor(R.id.train_time, res.getColor(R.color.text))
+                views.setTextViewTextSize(R.id.train_time, android.util.ComplexUnit.SP, 44f)
+                views.setTextViewText(
+                    R.id.sub,
+                    if (state.isLastTrain) {
+                        res.getString(R.string.sub_last_train)
+                    } else {
+                        res.getString(
+                            R.string.sub_next_after,
+                            TIME_FORMAT.format(state.nextTrainTime),
+                        )
+                    },
+                )
+                views.setTextViewText(
+                    R.id.foot_left,
+                    res.getString(
+                        R.string.foot_arrive_wait,
+                        TIME_FORMAT.format(state.arriveAtStop),
+                        state.waitMinutes,
+                    ),
+                )
+                bindBusCard(views, context, state.bus1, R.id.bus1_card, R.id.bus1_name, R.id.bus1_countdown, R.id.bus1_dep, R.id.bus1_seat)
+                bindBusCard(views, context, state.bus2, R.id.bus2_card, R.id.bus2_name, R.id.bus2_countdown, R.id.bus2_dep, R.id.bus2_seat)
+            } else {
+                views.setTextViewText(
+                    R.id.train_time,
+                    res.getString(
+                        if (state.mode == WidgetMode.WEEKEND) {
+                            R.string.weekend_msg
+                        } else {
+                            R.string.no_trains_msg
+                        },
+                    ),
+                )
+                views.setTextColor(R.id.train_time, res.getColor(R.color.text))
+                views.setTextViewTextSize(R.id.train_time, android.util.ComplexUnit.SP, 16f)
+                views.setTextViewText(R.id.sub, "")
+                views.setTextViewText(R.id.foot_left, "")
+                views.setTextViewText(R.id.bus1_name, "")
+                views.setTextViewText(R.id.bus1_countdown, "")
+                views.setTextViewText(R.id.bus1_dep, "")
+                views.setTextViewText(R.id.bus1_seat, "")
+                views.setTextViewText(R.id.bus2_name, "")
+                views.setTextViewText(R.id.bus2_countdown, "")
+                views.setTextViewText(R.id.bus2_dep, "")
+                views.setTextViewText(R.id.bus2_seat, "")
+            }
+
+            views.setTextViewText(R.id.foot_clock, CLOCK_FORMAT.format(LocalTime.now()))
             return views
         }
 
-        private fun busDetail(context: Context, bus: BusStatus?): String {
+        private fun bindBusCard(
+            views: RemoteViews,
+            context: Context,
+            card: BusCard?,
+            cardRootId: Int,
+            nameId: Int,
+            countdownId: Int,
+            departsId: Int,
+            seatId: Int,
+        ) {
+            if (card == null) return
             val res = context.resources
-            if (bus == null) return res.getString(R.string.no_bus)
-            if (bus.departed) return res.getString(R.string.departed)
-            val departure = TIME_FORMAT.format(bus.departure.time)
-            val countdown = if (bus.minutesUntil <= 0L) {
-                res.getString(R.string.departing_now)
+            views.setTextViewText(nameId, res.getString(R.string.bus_name, card.route))
+            if (card.catchable) {
+                views.setTextViewText(countdownId, formatCountdown(card.countdownSeconds))
+                views.setTextViewTextSize(countdownId, android.util.ComplexUnit.SP, 26f)
+                views.setTextColor(countdownId, slackColorRes(card.slackColor))
+                views.setInt(cardRootId, "setBackgroundResource", R.drawable.bus_card)
+                views.setTextViewText(
+                    departsId,
+                    res.getString(R.string.departs, TIME_FORMAT.format(card.departs)),
+                )
+                views.setTextViewText(
+                    seatId,
+                    res.getString(R.string.out_of_seat, TIME_FORMAT.format(card.outOfSeatBy)),
+                )
             } else {
-                res.getString(R.string.minute_format, bus.minutesUntil)
+                views.setTextViewText(countdownId, res.getString(R.string.cant_make_it))
+                views.setTextViewTextSize(countdownId, android.util.ComplexUnit.SP, 16f)
+                views.setTextColor(countdownId, res.getColor(R.color.off))
+                views.setInt(cardRootId, "setBackgroundResource", R.drawable.bus_card_off)
+                views.setTextViewText(
+                    departsId,
+                    res.getString(R.string.departed_or_soon, TIME_FORMAT.format(card.departs)),
+                )
+                views.setTextViewText(seatId, "")
             }
-            return res.getString(R.string.bus_detail_format, departure, countdown)
+        }
+
+        private fun slackColorRes(color: SlackColor): Int = when (color) {
+            SlackColor.OK -> R.color.ok
+            SlackColor.WARN -> R.color.warn
+            SlackColor.BAD -> R.color.bad
+            SlackColor.OFF -> R.color.off
+        }
+
+        private fun formatCountdown(totalSeconds: Long): String {
+            val s = totalSeconds.coerceAtLeast(0)
+            return "${s / 60}:${(s % 60).toString().padStart(2, '0')}"
         }
 
         private fun scheduleNextTick(context: Context) {
             val alarmManager = context.getSystemService(AlarmManager::class.java) ?: return
             val now = System.currentTimeMillis()
-            val nextMinuteBoundary = now - now % MILLIS_PER_MINUTE + MILLIS_PER_MINUTE
+            val nextSecondBoundary = now - now % MILLIS_PER_SECOND + MILLIS_PER_SECOND
             val pendingIntent = tickPendingIntent(context)
             val canScheduleExact = Build.VERSION.SDK_INT < Build.VERSION_CODES.S ||
                 alarmManager.canScheduleExactAlarms()
             if (canScheduleExact) {
                 alarmManager.setExactAndAllowWhileIdle(
                     AlarmManager.RTC_WAKEUP,
-                    nextMinuteBoundary,
+                    nextSecondBoundary,
                     pendingIntent,
                 )
             } else {
                 alarmManager.setWindow(
                     AlarmManager.RTC_WAKEUP,
-                    nextMinuteBoundary,
-                    MILLIS_PER_MINUTE,
+                    nextSecondBoundary,
+                    MILLIS_PER_SECOND,
                     pendingIntent,
                 )
             }
@@ -128,7 +211,5 @@ class DepartureWidget : AppWidgetProvider() {
             val alarmManager = context.getSystemService(AlarmManager::class.java) ?: return
             alarmManager.cancel(tickPendingIntent(context))
         }
-
-        private const val MILLIS_PER_MINUTE = 60_000L
     }
 }
