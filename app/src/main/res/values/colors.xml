@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="card">#1B1E23</color>
+    <color name="bus_card">#22262D</color>
+    <color name="text">#ECEFF3</color>
+    <color name="muted">#9AA3AF</color>
+    <color name="ok">#4ADE80</color>
+    <color name="countdown">#8AB4F8</color>
+    <color name="warn">#FBBF24</color>
+    <color name="bad">#F87171</color>
+    <color name="off">#6B7280</color>
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Train Departure</string>
+    <string name="widget_label">Train Departure</string>
+    <string name="label_catch_train">Catch the train at</string>
+    <string name="sub_next_after">Next after: %1$s</string>
+    <string name="sub_last_train">Last train today</string>
+    <string name="bus_name">Bus %1$s</string>
+    <string name="departs">departs %1$s</string>
+    <string name="seat_time">%1$s (%2$s)</string>
+    <string name="foot_arrive_wait">Arrive at stop %1$s · %2$d min wait</string>
+    <string name="weekend_msg">Weekend — no trains on this timetable</string>
+    <string name="no_trains_msg">No more trains today</string>
+    <string name="channel_name">Train departure</string>
+    <string name="notif_title">Train at %1$s</string>
+    <string name="notif_bus_line">Bus %1$s dep %2$s in %3$d min</string>
+    <string name="main_title">Train Departure</string>
+    <string name="main_explanation">To see the next train on your lock screen, allow the notification permission. The home-screen widget works without it.</string>
+    <string name="status_granted">Lock-screen notification enabled</string>
+    <string name="status_not_granted">Notification permission not granted yet</string>
+    <string name="grant_button">Allow notifications</string>
+</resources>

@@ -8,15 +8,25 @@ connect to that train.
 
 ## How it works
 
-- Trains run at `:04` and `:34` past the hour (16:04 – 18:34).
+- Trains run at `:04` and `:34` past the hour (16:04 – 18:34), Monday–Friday.
 - Bus 1 (114) departs 13 minutes before each train; Bus 2 (106) departs 10 minutes
   before. The bus ride is ~4 minutes.
-- The target train is the **earliest train whose latest usable bus departs at least
-  15 minutes from now** — e.g. at 15:50 the 16:04 train is already lost (its buses
-  leave at 15:51/15:54), so the widget shows the **16:34** train with buses at
-  16:21 / 16:24.
-- Once no train is catchable within the 15-minute rule, the widget shows dashes.
-- Tap the widget to force a refresh; it also refreshes automatically every minute.
+- Timing constants: `BUFFER_MIN = 15` (now → out of your seat), `WALK_MIN = 3`
+  (out of seat → on the bus), `RIDE_MIN = 4` (bus ride to the train stop).
+- A bus is catchable when it departs at least **18 minutes** (`BUFFER + WALK`)
+  from now; the target train is the earliest train whose later bus is catchable —
+  e.g. at 15:50 the 16:04 train is already lost, so the widget shows the **16:34**
+  train with buses at 16:21 / 16:24.
+- Each bus card shows a live `M:SS` countdown to departure (self-ticking
+  Chronometer), colored by slack (light blue > 10 min, amber > 3 min, red
+  otherwise), plus `departs HH:mm` and `out of seat by HH:mm` (departure − 3 min
+  walk).
+- The footer shows `Arrive at stop HH:mm · N min wait` (first catchable bus +
+  4-minute ride) and a live clock.
+- Weekends show “Weekend — no trains on this timetable”; after the last catchable
+  train, “No more trains today”.
+- Tap the widget to force a refresh; countdowns and the clock tick every second
+  on their own, and the timetable logic refreshes once a minute.
 
 ## Schedule
 
@@ -43,11 +53,20 @@ live GTFS data source can be added later behind the same interface.
 4. Long-press your home screen > **Widgets** > **Train Departure** and drop it on
    the home screen.
 
+## Lock screen
+
+Android removed lock-screen widgets in Android 5, so the app instead posts a
+**persistent notification** (visible on the lock screen without unlocking) with
+the target train and bus countdowns. Open the app once and grant the
+notification permission to enable it. Make sure lock-screen notifications are
+allowed (Settings → Lock screen → Notifications) and not set to
+"hide content".
+
 ## Project layout
 
 - `Schedule.kt` — timetable + target-train selection logic (pure Kotlin, unit-tested)
 - `DepartureWidget.kt` — `AppWidgetProvider` that renders state and schedules the
-  minute-tick updates
+  per-second updates
 - `app/src/test/` — JUnit tests for the selection logic, including the
   15:50 → 16:34 example
 
