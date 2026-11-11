@@ -16,6 +16,8 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         statusText = findViewById(R.id.status)
+        findViewById<TextView>(R.id.version).text =
+            "v${packageManager.getPackageInfo(packageName, 0).versionName}"
         val grantButton = findViewById<Button>(R.id.grant_button)
         grantButton.setOnClickListener { requestPermission() }
         updateStatus()
