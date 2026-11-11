@@ -53,6 +53,15 @@ live GTFS data source can be added later behind the same interface.
 4. Long-press your home screen > **Widgets** > **Train Departure** and drop it on
    the home screen.
 
+## Lock screen
+
+Android removed lock-screen widgets in Android 5, so the app instead posts a
+**persistent notification** (visible on the lock screen without unlocking) with
+the target train and bus countdowns. Open the app once and grant the
+notification permission to enable it. Make sure lock-screen notifications are
+allowed (Settings → Lock screen → Notifications) and not set to
+"hide content".
+
 ## Project layout
 
 - `Schedule.kt` — timetable + target-train selection logic (pure Kotlin, unit-tested)

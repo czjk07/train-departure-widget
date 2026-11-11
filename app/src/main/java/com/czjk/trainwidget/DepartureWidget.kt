@@ -68,6 +68,7 @@ class DepartureWidget : AppWidgetProvider() {
             val state = Schedule.stateAt(LocalTime.now(), LocalDate.now().dayOfWeek)
             val views = buildViews(context, state)
             manager.updateAppWidget(appWidgetIds, views)
+            LockScreenNotifier.update(context, state)
         }
 
         private fun buildViews(context: Context, state: WidgetState): RemoteViews {
