@@ -17,14 +17,16 @@ connect to that train.
   from now; the target train is the earliest train whose later bus is catchable —
   e.g. at 15:50 the 16:04 train is already lost, so the widget shows the **16:34**
   train with buses at 16:21 / 16:24.
-- Each bus card shows a live `M:SS` countdown to departure, colored by slack
-  (green > 10 min, amber > 3 min, red otherwise), plus `departs HH:mm` and
-  `out of seat by HH:mm` (departure − 3 min walk).
+- Each bus card shows a live `M:SS` countdown to departure (self-ticking
+  Chronometer), colored by slack (light blue > 10 min, amber > 3 min, red
+  otherwise), plus `departs HH:mm` and `out of seat by HH:mm` (departure − 3 min
+  walk).
 - The footer shows `Arrive at stop HH:mm · N min wait` (first catchable bus +
   4-minute ride) and a live clock.
 - Weekends show “Weekend — no trains on this timetable”; after the last catchable
   train, “No more trains today”.
-- Tap the widget to force a refresh; it also refreshes automatically every second.
+- Tap the widget to force a refresh; countdowns and the clock tick every second
+  on their own, and the timetable logic refreshes once a minute.
 
 ## Schedule
 
