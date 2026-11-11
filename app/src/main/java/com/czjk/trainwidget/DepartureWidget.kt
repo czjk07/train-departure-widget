@@ -92,7 +92,7 @@ class DepartureWidget : AppWidgetProvider() {
             val res = context.resources
             if (bus == null) return res.getString(R.string.no_bus)
             if (bus.departed) return res.getString(R.string.departed)
-            val departure = TIME_FORMAT.format(bus.departure.departure.time)
+            val departure = TIME_FORMAT.format(bus.departure.time)
             val countdown = if (bus.minutesUntil <= 0L) {
                 res.getString(R.string.departing_now)
             } else {
