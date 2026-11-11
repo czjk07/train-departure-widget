@@ -73,16 +73,12 @@ object LockScreenNotifier {
         val timeFormat = java.time.format.DateTimeFormatter.ofPattern("HH:mm")
         return listOfNotNull(state.bus1, state.bus2)
             .joinToString(" · ") { card ->
-                if (card.catchable) {
-                    context.getString(
-                        R.string.notif_bus_line,
-                        card.route,
-                        timeFormat.format(card.departs),
-                        card.countdownSeconds / 60,
-                    )
-                } else {
-                    context.getString(R.string.notif_bus_missed, card.route)
-                }
+                context.getString(
+                    R.string.notif_bus_line,
+                    card.route,
+                    timeFormat.format(card.departs),
+                    card.countdownSeconds / 60,
+                )
             }
     }
 }

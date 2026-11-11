@@ -2,7 +2,6 @@
 <resources>
     <color name="card">#1B1E23</color>
     <color name="bus_card">#22262D</color>
-    <color name="bus_card_off">#1C1F24</color>
     <color name="text">#ECEFF3</color>
     <color name="muted">#9AA3AF</color>
     <color name="ok">#4ADE80</color>

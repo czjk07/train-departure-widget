@@ -100,6 +100,10 @@ class DepartureWidget : AppWidgetProvider() {
                     ),
                 )
                 views.setTextViewText(
+                    R.id.current_time,
+                    TIME_FORMAT.format(LocalTime.now()),
+                )
+                views.setTextViewText(
                     R.id.seat_bus1,
                     seatText(res, state.bus1),
                 )
@@ -123,6 +127,10 @@ class DepartureWidget : AppWidgetProvider() {
                 views.setTextColor(R.id.train_time, res.getColor(R.color.text))
                 views.setTextViewText(R.id.sub, "")
                 views.setTextViewText(R.id.foot_arrive, "")
+                views.setTextViewText(
+                    R.id.current_time,
+                    TIME_FORMAT.format(LocalTime.now()),
+                )
                 views.setTextViewText(R.id.seat_bus1, "")
                 views.setTextViewText(R.id.seat_bus2, "")
                 views.setTextViewText(R.id.bus1_name, "")
@@ -148,31 +156,19 @@ class DepartureWidget : AppWidgetProvider() {
             if (card == null) return
             val res = context.resources
             views.setTextViewText(nameId, res.getString(R.string.bus_name, card.route))
-            if (card.catchable) {
-                views.setChronometer(
-                    countdownId,
-                    SystemClock.elapsedRealtime() + card.countdownSeconds * 1000,
-                    null,
-                    true,
-                )
-                views.setTextViewTextSize(countdownId, android.util.TypedValue.COMPLEX_UNIT_SP, 26f)
-                views.setTextColor(countdownId, res.getColor(slackColorRes(card.slackColor)))
-                views.setInt(cardRootId, "setBackgroundResource", R.drawable.bus_card)
-                views.setTextViewText(
-                    departsId,
-                    res.getString(R.string.departs, TIME_FORMAT.format(card.departs)),
-                )
-            } else {
-                views.setChronometer(countdownId, 0, null, false)
-                views.setTextViewText(countdownId, res.getString(R.string.cant_make_it))
-                views.setTextViewTextSize(countdownId, android.util.TypedValue.COMPLEX_UNIT_SP, 16f)
-                views.setTextColor(countdownId, res.getColor(R.color.off))
-                views.setInt(cardRootId, "setBackgroundResource", R.drawable.bus_card_off)
-                views.setTextViewText(
-                    departsId,
-                    res.getString(R.string.departed_or_soon, TIME_FORMAT.format(card.departs)),
-                )
-            }
+            views.setChronometer(
+                countdownId,
+                SystemClock.elapsedRealtime() + card.countdownSeconds * 1000,
+                null,
+                true,
+            )
+            views.setTextViewTextSize(countdownId, android.util.TypedValue.COMPLEX_UNIT_SP, 26f)
+            views.setTextColor(countdownId, res.getColor(slackColorRes(card.slackColor)))
+            views.setInt(cardRootId, "setBackgroundResource", R.drawable.bus_card)
+            views.setTextViewText(
+                departsId,
+                res.getString(R.string.departs, TIME_FORMAT.format(card.departs)),
+            )
         }
 
         private fun stopChronometer(views: RemoteViews, id: Int, text: String) {
@@ -181,7 +177,7 @@ class DepartureWidget : AppWidgetProvider() {
         }
 
         private fun seatText(res: android.content.res.Resources, card: BusCard?): String {
-            if (card == null || !card.catchable) return ""
+            if (card == null) return ""
             return res.getString(
                 R.string.seat_time,
                 TIME_FORMAT.format(card.outOfSeatBy),
