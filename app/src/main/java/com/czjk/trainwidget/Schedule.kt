@@ -68,7 +68,7 @@ object Schedule {
         }
         val target = trains[index]
         val firstCatchable = listOf(target.bus1, target.bus2)
-            .first { it.toSecondOfDay() - nowS >= NEED_SECONDS }
+            .firstOrNull { it.toSecondOfDay() - nowS >= NEED_SECONDS }
         val arrive = firstCatchable.plusMinutes(RIDE_MIN)
         return WidgetState(
             mode = WidgetMode.TRAIN,
