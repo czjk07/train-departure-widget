@@ -69,7 +69,7 @@ object Schedule {
         val target = trains[index]
         val firstCatchable = listOf(target.bus1, target.bus2)
             .firstOrNull { it.toSecondOfDay() - nowS >= NEED_SECONDS }
-        val arrive = firstCatchable.plusMinutes(RIDE_MIN)
+        val arrive = firstCatchable?.plusMinutes(RIDE_MIN)
         return WidgetState(
             mode = WidgetMode.TRAIN,
             trainTime = target.time,
@@ -78,7 +78,7 @@ object Schedule {
             bus1 = busCard(BUS1_ROUTE, target.bus1, nowS),
             bus2 = busCard(BUS2_ROUTE, target.bus2, nowS),
             arriveAtStop = arrive,
-            waitMinutes = ChronoUnit.MINUTES.between(arrive, target.time),
+            waitMinutes = arrive?.let { ChronoUnit.MINUTES.between(it, target.time) },
         )
     }
 
