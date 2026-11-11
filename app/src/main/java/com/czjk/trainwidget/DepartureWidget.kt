@@ -93,11 +93,15 @@ class DepartureWidget : AppWidgetProvider() {
                 )
                 views.setTextViewText(
                     R.id.foot_arrive,
-                    res.getString(
-                        R.string.foot_arrive_wait,
-                        TIME_FORMAT.format(state.arriveAtStop),
-                        state.waitMinutes,
-                    ),
+                    if (state.arriveAtStop == null) {
+                        ""
+                    } else {
+                        res.getString(
+                            R.string.foot_arrive_wait,
+                            TIME_FORMAT.format(state.arriveAtStop),
+                            state.waitMinutes,
+                        )
+                    },
                 )
                 views.setTextViewText(
                     R.id.current_time,

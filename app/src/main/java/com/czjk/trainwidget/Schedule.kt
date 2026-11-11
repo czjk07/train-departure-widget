@@ -62,9 +62,7 @@ object Schedule {
             return WidgetState(WidgetMode.WEEKEND)
         }
         val nowS = now.toSecondOfDay().toLong()
-        val index = trains.indexOfFirst {
-            maxOf(it.bus1.toSecondOfDay(), it.bus2.toSecondOfDay()) - nowS >= NEED_SECONDS
-        }
+        val index = trains.indexOfFirst { it.bus2.toSecondOfDay() - nowS >= 0 }
         if (index < 0) {
             return WidgetState(WidgetMode.NO_TRAINS)
         }
