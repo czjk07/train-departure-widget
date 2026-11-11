@@ -8,7 +8,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.ComplexUnit
+import android.util.TypedValue
 import android.widget.RemoteViews
 import java.time.LocalDate
 import java.time.LocalTime
@@ -83,7 +83,7 @@ class DepartureWidget : AppWidgetProvider() {
                     TIME_FORMAT.format(state.trainTime),
                 )
                 views.setTextColor(R.id.train_time, res.getColor(R.color.text))
-                views.setTextViewTextSize(R.id.train_time, ComplexUnit.SP, 44f)
+                views.setTextViewTextSize(R.id.train_time, TypedValue.COMPLEX_UNIT_SP, 44f)
                 views.setTextViewText(
                     R.id.sub,
                     if (state.isLastTrain) {
@@ -117,7 +117,7 @@ class DepartureWidget : AppWidgetProvider() {
                     ),
                 )
                 views.setTextColor(R.id.train_time, res.getColor(R.color.text))
-                views.setTextViewTextSize(R.id.train_time, ComplexUnit.SP, 16f)
+                views.setTextViewTextSize(R.id.train_time, TypedValue.COMPLEX_UNIT_SP, 16f)
                 views.setTextViewText(R.id.sub, "")
                 views.setTextViewText(R.id.foot_left, "")
                 views.setTextViewText(R.id.bus1_name, "")
@@ -149,7 +149,7 @@ class DepartureWidget : AppWidgetProvider() {
             views.setTextViewText(nameId, res.getString(R.string.bus_name, card.route))
             if (card.catchable) {
                 views.setTextViewText(countdownId, formatCountdown(card.countdownSeconds))
-                views.setTextViewTextSize(countdownId, ComplexUnit.SP, 26f)
+                views.setTextViewTextSize(countdownId, TypedValue.COMPLEX_UNIT_SP, 26f)
                 views.setTextColor(countdownId, slackColorRes(card.slackColor))
                 views.setInt(cardRootId, "setBackgroundResource", R.drawable.bus_card)
                 views.setTextViewText(
@@ -162,7 +162,7 @@ class DepartureWidget : AppWidgetProvider() {
                 )
             } else {
                 views.setTextViewText(countdownId, res.getString(R.string.cant_make_it))
-                views.setTextViewTextSize(countdownId, ComplexUnit.SP, 16f)
+                views.setTextViewTextSize(countdownId, TypedValue.COMPLEX_UNIT_SP, 16f)
                 views.setTextColor(countdownId, res.getColor(R.color.off))
                 views.setInt(cardRootId, "setBackgroundResource", R.drawable.bus_card_off)
                 views.setTextViewText(
