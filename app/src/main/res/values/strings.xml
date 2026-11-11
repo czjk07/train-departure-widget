@@ -7,7 +7,7 @@
     <string name="sub_last_train">Last train today</string>
     <string name="bus_name">Bus %1$s</string>
     <string name="departs">departs %1$s</string>
-    <string name="out_of_seat">out of seat by %1$s</string>
+    <string name="seat_time">%1$s (%2$s)</string>
     <string name="cant_make_it">can’t make it</string>
     <string name="departed_or_soon">departed or too soon (%1$s)</string>
     <string name="foot_arrive_wait">Arrive at stop %1$s · %2$d min wait</string>

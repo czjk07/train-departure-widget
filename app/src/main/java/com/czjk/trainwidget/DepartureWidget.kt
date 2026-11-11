@@ -92,15 +92,23 @@ class DepartureWidget : AppWidgetProvider() {
                     },
                 )
                 views.setTextViewText(
-                    R.id.foot_left,
+                    R.id.foot_arrive,
                     res.getString(
                         R.string.foot_arrive_wait,
                         TIME_FORMAT.format(state.arriveAtStop),
                         state.waitMinutes,
                     ),
                 )
-                bindBusCard(views, context, state.bus1, R.id.bus1_card, R.id.bus1_name, R.id.bus1_countdown, R.id.bus1_dep, R.id.bus1_seat)
-                bindBusCard(views, context, state.bus2, R.id.bus2_card, R.id.bus2_name, R.id.bus2_countdown, R.id.bus2_dep, R.id.bus2_seat)
+                views.setTextViewText(
+                    R.id.seat_bus1,
+                    seatText(res, state.bus1),
+                )
+                views.setTextViewText(
+                    R.id.seat_bus2,
+                    seatText(res, state.bus2),
+                )
+                bindBusCard(views, context, state.bus1, R.id.bus1_card, R.id.bus1_name, R.id.bus1_countdown, R.id.bus1_dep)
+                bindBusCard(views, context, state.bus2, R.id.bus2_card, R.id.bus2_name, R.id.bus2_countdown, R.id.bus2_dep)
             } else {
                 views.setTextViewText(
                     R.id.train_time,
@@ -114,18 +122,17 @@ class DepartureWidget : AppWidgetProvider() {
                 )
                 views.setTextColor(R.id.train_time, res.getColor(R.color.text))
                 views.setTextViewText(R.id.sub, "")
-                views.setTextViewText(R.id.foot_left, "")
+                views.setTextViewText(R.id.foot_arrive, "")
+                views.setTextViewText(R.id.seat_bus1, "")
+                views.setTextViewText(R.id.seat_bus2, "")
                 views.setTextViewText(R.id.bus1_name, "")
                 views.setTextViewText(R.id.bus1_dep, "")
-                views.setTextViewText(R.id.bus1_seat, "")
                 views.setTextViewText(R.id.bus2_name, "")
                 views.setTextViewText(R.id.bus2_dep, "")
-                views.setTextViewText(R.id.bus2_seat, "")
                 stopChronometer(views, R.id.bus1_countdown, "")
                 stopChronometer(views, R.id.bus2_countdown, "")
             }
 
-            bindClock(views)
             return views
         }
 
@@ -137,7 +144,6 @@ class DepartureWidget : AppWidgetProvider() {
             nameId: Int,
             countdownId: Int,
             departsId: Int,
-            seatId: Int,
         ) {
             if (card == null) return
             val res = context.resources
@@ -156,10 +162,6 @@ class DepartureWidget : AppWidgetProvider() {
                     departsId,
                     res.getString(R.string.departs, TIME_FORMAT.format(card.departs)),
                 )
-                views.setTextViewText(
-                    seatId,
-                    res.getString(R.string.out_of_seat, TIME_FORMAT.format(card.outOfSeatBy)),
-                )
             } else {
                 views.setChronometer(countdownId, 0, null, false)
                 views.setTextViewText(countdownId, res.getString(R.string.cant_make_it))
@@ -170,7 +172,6 @@ class DepartureWidget : AppWidgetProvider() {
                     departsId,
                     res.getString(R.string.departed_or_soon, TIME_FORMAT.format(card.departs)),
                 )
-                views.setTextViewText(seatId, "")
             }
         }
 
@@ -179,13 +180,12 @@ class DepartureWidget : AppWidgetProvider() {
             views.setTextViewText(id, text)
         }
 
-        private fun bindClock(views: RemoteViews) {
-            val secondsSinceMidnight = LocalTime.now().toSecondOfDay() * 1000L
-            views.setChronometer(
-                R.id.foot_clock,
-                SystemClock.elapsedRealtime() - secondsSinceMidnight,
-                null,
-                true,
+        private fun seatText(res: android.content.res.Resources, card: BusCard?): String {
+            if (card == null || !card.catchable) return ""
+            return res.getString(
+                R.string.seat_time,
+                TIME_FORMAT.format(card.outOfSeatBy),
+                card.route,
             )
         }
 

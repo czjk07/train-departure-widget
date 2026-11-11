@@ -7,32 +7,84 @@
     android:background="@drawable/widget_background"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/label"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/label_catch_train"
-        android:textColor="@color/muted"
-        android:textSize="11sp"
-        android:textStyle="bold"
-        android:letterSpacing="0.08"
-        android:textAllCaps="true" />
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
-    <TextView
-        android:id="@+id/train_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:textColor="@color/text"
-        android:textSize="44sp"
-        android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/sub"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/muted"
-        android:textSize="13sp" />
+            <TextView
+                android:id="@+id/label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_catch_train"
+                android:textColor="@color/muted"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                android:textAllCaps="true" />
+
+            <TextView
+                android:id="@+id/train_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/text"
+                android:textSize="44sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/muted"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/foot_arrive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:gravity="end"
+                android:textColor="@color/muted"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/seat_bus1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_gravity="end"
+                android:gravity="end"
+                android:textColor="@color/bad"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/seat_bus2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_gravity="end"
+                android:gravity="end"
+                android:textColor="@color/bad"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -75,13 +127,6 @@
                 android:layout_marginTop="4dp"
                 android:textColor="@color/muted"
                 android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/bus1_seat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/muted"
-                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -118,35 +163,6 @@
                 android:layout_marginTop="4dp"
                 android:textColor="@color/muted"
                 android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/bus2_seat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/muted"
-                android:textSize="12sp" />
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/foot_left"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/muted"
-            android:textSize="12sp" />
-
-        <Chronometer
-            android:id="@+id/foot_clock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/muted"
-            android:textSize="12sp" />
     </LinearLayout>
 </LinearLayout>
