@@ -1,0 +1,25 @@
+[package]
+name = "train-win-widget"
+version = "1.0.0"
+edition = "2021"
+description = "Train departure widget for the Windows taskbar"
+
+[dependencies.windows-sys]
+version = "0.59"
+features = [
+    "Win32_Foundation",
+    "Win32_Graphics_Gdi",
+    "Win32_Graphics_GdiPlus",
+    "Win32_System_LibraryLoader",
+    "Win32_System_Registry",
+    "Win32_System_SystemInformation",
+    "Win32_UI_Controls",
+    "Win32_UI_WindowsAndMessaging",
+]
+
+[profile.release]
+opt-level = "z"
+lto = true
+strip = true
+
+codegen-units = 1
